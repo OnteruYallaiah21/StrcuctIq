@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt Intelligence - Upload & Process</title>
+    <link rel="stylesheet" href="/static/css/style.css?v=2">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="logo">
+                <i class="fas fa-receipt"></i>
+                <h1>Receipt Intelligence</h1>
+            </div>
+            <p class="subtitle">Upload receipts and extract structured data using AI</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-container">
+                    <h2>Upload Receipt</h2>
+                    
+                    <!-- File Upload Area -->
+                    <div class="upload-area" id="uploadArea">
+                        <div class="upload-content">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h3>Drop your receipt here</h3>
+                            <p>or <span class="upload-link">browse files</span></p>
+                            <div class="file-types">
+                                <span class="file-type">PNG</span>
+                                <span class="file-type">JPG</span>
+                                <span class="file-type">PDF</span>
+                                <span class="file-type">DOCX</span>
+                            </div>
+                        </div>
+                        <input type="file" id="fileInput" accept=".png,.jpg,.jpeg,.gif,.bmp,.tiff,.pdf,.docx" hidden>
+                    </div>
+
+                    <!-- Text Input Area -->
+                    <div class="text-input-section">
+                        <h3>Or paste receipt text directly</h3>
+                        <textarea 
+                            id="textInput" 
+                            placeholder="Paste your receipt text here..."
+                            rows="8"
+                        ></textarea>
+                        <button class="btn btn-primary" id="processTextBtn">
+                            <i class="fas fa-magic"></i>
+                            Process Text
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Processing Status -->
+            <section class="processing-section" id="processingSection" style="display: none;">
+                <div class="processing-content">
+                    <div class="spinner"></div>
+                    <h3>Processing your receipt...</h3>
+                    <p id="processingStatus">Extracting text from document</p>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Results Section -->
+            <section class="results-section" id="resultsSection" style="display: none;">
+                <div class="results-container">
+                    <h2>Extracted Receipt Data</h2>
+                    
+                    <!-- Confidence Score -->
+                    <div class="confidence-score" id="confidenceScore">
+                        <div class="score-circle">
+                            <span id="scoreValue">0%</span>
+                        </div>
+                        <p>Confidence Score</p>
+                    </div>
+
+                    <!-- Receipt Details -->
+                    <div class="receipt-details">
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <label>Store Name</label>
+                                <span id="storeName">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Date</label>
+                                <span id="receiptDate">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Time</label>
+                                <span id="receiptTime">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <label>Payment Method</label>
+                                <span id="paymentMethod">-</span>
+                            </div>
+                        </div>
+
+                        <!-- Amounts -->
+                        <div class="amounts-section">
+                            <h3>Amounts</h3>
+                            <div class="amount-grid">
+                                <div class="amount-item">
+                                    <label>Subtotal</label>
+                                    <span id="subtotal">$0.00</span>
+                                </div>
+                                <div class="amount-item">
+                                    <label>Tax</label>
+                                    <span id="tax">$0.00</span>
+                                </div>
+                                <div class="amount-item total">
+                                    <label>Total</label>
+                                    <span id="total">$0.00</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Items -->
+                        <div class="items-section">
+                            <h3>Items</h3>
+                            <div class="items-list" id="itemsList">
+                                <!-- Items will be populated here -->
+                            </div>
+                        </div>
+
+                        <!-- JSON Output -->
+                        <div class="json-section">
+                            <h3>Complete JSON Output</h3>
+                            <div class="json-output" id="jsonOutput">
+                                <!-- JSON will be displayed here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-success" id="saveReceiptBtn">
+                            <i class="fas fa-save"></i>
+                            Save to Database
+                        </button>
+                        <button class="btn btn-secondary" id="processAnotherBtn">
+                            <i class="fas fa-plus"></i>
+                            Process Another
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Error Section -->
+            <section class="error-section" id="errorSection" style="display: none;">
+                <div class="error-content">
+                    <i class="fas fa-exclamation-triangle error-icon"></i>
+                    <h3>Processing Error</h3>
+                    <p id="errorMessage">An error occurred while processing your receipt.</p>
+                    <button class="btn btn-primary" id="retryBtn">
+                        <i class="fas fa-redo"></i>
+                        Try Again
+                    </button>
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>&copy; 2024 Receipt Intelligence. Powered by LangChain & Groq AI.</p>
+        </footer>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="/static/js/app.js?v=4"></script>
+</body>
+</html>
